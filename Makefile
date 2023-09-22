@@ -9,3 +9,7 @@ down:
 .PHONY: install-deps
 install-deps: up
 	docker compose exec php composer install
+
+.PHONY: test
+test:
+	docker compose exec php vendor/bin/phpunit

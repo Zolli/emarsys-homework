@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<phpunit
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        bootstrap="./tests/bootstrap.php"
+        backupGlobals="false"
+        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.3/phpunit.xsd"
+        cacheDirectory=".phpunit.cache"
+        backupStaticProperties="false">
+    <testsuites>
+        <testsuite name="Emarsys homework - Zolli">
+            <directory suffix="Test.php">./tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
