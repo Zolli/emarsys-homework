@@ -31,10 +31,21 @@ class DueDateCalculator implements DueDateCalculatorInterface
 
     private function isDateInsideWorkingHours(DateTimeImmutable $dateTime): bool
     {
+        return $this->isTimeInsideWorkingHours($dateTime) && $this->isDayAWorkday($dateTime);
+    }
+
+    private function isTimeInsideWorkingHours(DateTimeImmutable $dateTime): bool
+    {
         $dateTimeHour = (int)$dateTime->format('G');
+
+        return $dateTimeHour < $this->workTerms->getWorkdayEndHour()
+            && $dateTimeHour >= $this->workTerms->getWorkdayStartHour();
+    }
+
+    private function isDayAWorkday(DateTimeImmutable $dateTime): bool
+    {
         $dateTimeDayName = $dateTime->format('l');
 
-        return ($dateTimeHour < $this->workTerms->getWorkdayEndHour() && $dateTimeHour >= $this->workTerms->getWorkdayStartHour())
-            && in_array($dateTimeDayName, $this->workTerms->getWorkingDays());
+        return in_array($dateTimeDayName, $this->workTerms->getWorkingDays(), true);
     }
 }

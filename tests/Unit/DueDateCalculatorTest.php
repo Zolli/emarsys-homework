@@ -47,7 +47,7 @@ class DueDateCalculatorTest extends TestCase
     public function testItChecksDateToBeInWorkingDays(DateTimeImmutable $input, bool $expected): void
     {
         $objectReflector = new ReflectionObject($this->subject);
-        $methodReflector = $objectReflector->getMethod('isDateAWorkday');
+        $methodReflector = $objectReflector->getMethod('isDayAWorkday');
         $methodReflector->setAccessible(true);
 
         $this->assertEquals($expected, $methodReflector->invoke($this->subject, $input));
@@ -58,15 +58,15 @@ class DueDateCalculatorTest extends TestCase
     {
         $workTermMock = $this->getMockBuilder(WorkTerms::class)->disableOriginalConstructor()->getMock();
 
-        $workTermMock->expects($this->atLeastOnce())
+        $workTermMock->expects($this->any())
             ->method('getWorkingDays')
             ->willReturn(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']);
 
-        $workTermMock->expects($this->atLeastOnce())
+        $workTermMock->expects($this->any())
             ->method('getWorkdayStartHour')
             ->willReturn(9);
 
-        $workTermMock->expects($this->atLeastOnce())
+        $workTermMock->expects($this->any())
             ->method('getWorkdayEndHour')
             ->willReturn(17);
 
