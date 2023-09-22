@@ -6,6 +6,7 @@ namespace Zolli\Emarsys\Homework\Tests\Unit;
 
 use \DateTimeImmutable;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Zolli\Emarsys\Homework\DueDateCalculator;
 use Zolli\Emarsys\Homework\Model\WorkTerms;
@@ -16,9 +17,7 @@ class DueDateCalculatorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->subject = new DueDateCalculator(
-            new WorkTerms(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], 9, 17)
-        );
+        $this->subject = new DueDateCalculator($this->getWorkTermMock());
     }
 
     #[DataProvider('dataProviderValidCases')]
@@ -30,6 +29,25 @@ class DueDateCalculatorTest extends TestCase
         $result = $this->subject->calculateDueDate($startDate, $turnaroundTime);
 
         $this->assertEquals($result->format('Y-m-d H:i:s'), $expectedResult->format('Y-m-d H:i:s'));
+    }
+
+    private function getWorkTermMock(): MockObject|WorkTerms
+    {
+        $workTermMock = $this->getMockBuilder(WorkTerms::class)->disableOriginalConstructor()->getMock();
+
+        $workTermMock->expects($this->atLeastOnce())
+            ->method('getWorkingDays')
+            ->willReturn(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']);
+
+        $workTermMock->expects($this->atLeastOnce())
+            ->method('getWorkdayStartHour')
+            ->willReturn(9);
+
+        $workTermMock->expects($this->atLeastOnce())
+            ->method('getWorkdayEndHour')
+            ->willReturn(17);
+
+        return $workTermMock;
     }
 
     public static function dataProviderValidCases(): array
