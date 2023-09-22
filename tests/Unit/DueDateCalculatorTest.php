@@ -8,6 +8,7 @@ use \DateTimeImmutable;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Zolli\Emarsys\Homework\DueDateCalculator;
+use Zolli\Emarsys\Homework\Model\WorkTerms;
 
 class DueDateCalculatorTest extends TestCase
 {
@@ -15,7 +16,9 @@ class DueDateCalculatorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->subject = new DueDateCalculator();
+        $this->subject = new DueDateCalculator(
+            new WorkTerms(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], 9, 17)
+        );
     }
 
     #[DataProvider('dataProviderValidCases')]

@@ -10,11 +10,10 @@ use Zolli\Emarsys\Homework\Contracts\DueDateCalculatorInterface;
 
 class DueDateCalculator implements DueDateCalculatorInterface
 {
-    const WORKDAY_START = 9;
+    public function __construct(int $a)
+    {
 
-    const WORKDAY_END = 17;
-
-    const WORKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    }
 
     public function calculateDueDate(DateTimeImmutable $submitDateTime, int $turnaroundTimeHours): DateTimeImmutable
     {
