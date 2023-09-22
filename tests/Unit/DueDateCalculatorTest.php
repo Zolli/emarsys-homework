@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Zolli\Emarsys\Homework\Tests\Unit;
 
 use \DateTimeImmutable;
+use \ReflectionObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -31,6 +32,28 @@ class DueDateCalculatorTest extends TestCase
         $this->assertEquals($result->format('Y-m-d H:i:s'), $expectedResult->format('Y-m-d H:i:s'));
     }
 
+    #[DataProvider('workHourCheckDataProvider')]
+    public function testItChecksDateTimeForInWorkingHoursCorrectly(DateTimeImmutable $input, bool $expected): void
+    {
+        $objectReflector = new ReflectionObject($this->subject);
+        $methodReflector = $objectReflector->getMethod('isTimeInsideWorkingHours');
+        $methodReflector->setAccessible(true);
+
+        $this->assertEquals($expected, $methodReflector->invoke($this->subject, $input));
+
+    }
+
+    #[DataProvider('workDayCheckDataProvider')]
+    public function testItChecksDateToBeInWorkingDays(DateTimeImmutable $input, bool $expected): void
+    {
+        $objectReflector = new ReflectionObject($this->subject);
+        $methodReflector = $objectReflector->getMethod('isDateAWorkday');
+        $methodReflector->setAccessible(true);
+
+        $this->assertEquals($expected, $methodReflector->invoke($this->subject, $input));
+
+    }
+
     private function getWorkTermMock(): MockObject|WorkTerms
     {
         $workTermMock = $this->getMockBuilder(WorkTerms::class)->disableOriginalConstructor()->getMock();
@@ -48,6 +71,24 @@ class DueDateCalculatorTest extends TestCase
             ->willReturn(17);
 
         return $workTermMock;
+    }
+
+    public static function workHourCheckDataProvider(): array
+    {
+        return [
+            'midday' => [new DateTimeImmutable('2023-09-22 12:00:00'), true],
+            'workday_start' => [new DateTimeImmutable('2023-09-22 09:00:00'), true],
+            'before_start' => [new DateTimeImmutable('2023-09-22 08:59:59'), false],
+            'after_end' => [new DateTimeImmutable('2023-09-22 21:32:58'), false],
+        ];
+    }
+
+    public static function workDayCheckDataProvider(): array
+    {
+        return [
+            'friday' => [new DateTimeImmutable('2023-09-22 12:00:00'), true],
+            'saturday' => [new DateTimeImmutable('2023-09-23 09:00:00'), false],
+        ];
     }
 
     public static function dataProviderValidCases(): array
