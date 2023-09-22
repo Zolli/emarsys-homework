@@ -22,16 +22,22 @@ class DueDateCalculator implements DueDateCalculatorInterface
 
         while ($turnaroundTimeHours > 0) {
             $dueDateTime = $dueDateTime->add(DateInterval::createFromDateString('1 hour'));
-            $dueDateTimeHour = (int)$dueDateTime->format('G');
 
-            if (
-                ($dueDateTimeHour < self::WORKDAY_END && $dueDateTimeHour >= self::WORKDAY_START)
-                && in_array($dueDateTime->format('l'), self::WORKDAYS)
-            ) {
+
+            if ($this->isDateInsideWorkingHours($dueDateTime)) {
                 $turnaroundTimeHours--;
             }
         }
 
         return $dueDateTime;
+    }
+
+    private function isDateInsideWorkingHours(DateTimeImmutable $dateTime): bool
+    {
+        $dateTimeHour = (int)$dateTime->format('G');
+        $dateTimeDayName = $dateTime->format('l');
+
+        return ($dateTimeHour < self::WORKDAY_END && $dateTimeHour >= self::WORKDAY_START)
+            && in_array($dateTimeDayName, self::WORKDAYS);
     }
 }
