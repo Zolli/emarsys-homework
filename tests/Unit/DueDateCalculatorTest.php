@@ -10,6 +10,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Zolli\Emarsys\Homework\DueDateCalculator;
+use Zolli\Emarsys\Homework\Exception\IssueException;
 use Zolli\Emarsys\Homework\Model\WorkTerms;
 
 class DueDateCalculatorTest extends TestCase
@@ -51,7 +52,22 @@ class DueDateCalculatorTest extends TestCase
         $methodReflector->setAccessible(true);
 
         $this->assertEquals($expected, $methodReflector->invoke($this->subject, $input));
+    }
 
+    public function testItRaiseExceptionWhenSubmitDateIsOutsideWorkHours(): void
+    {
+        $this->expectException(IssueException::class);
+        $this->expectExceptionMessage('Cannot submit issue outside work hours!');
+
+        $this->subject->calculateDueDate(new DateTimeImmutable('2023-09-22 22:22:18'), 6);
+    }
+
+    public function testItRaiseExceptionWhenTurnaroundTimeIsInvalid(): void
+    {
+        $this->expectException(IssueException::class);
+        $this->expectExceptionMessage('Turnaround time must be a positive integer!');
+
+        $this->subject->calculateDueDate(new DateTimeImmutable('2023-09-22 16:22:18'), 0);
     }
 
     private function getWorkTermMock(): MockObject|WorkTerms
