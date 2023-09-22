@@ -1,5 +1,9 @@
 # Emarsys Homework
 
+## Project requirements
+* gnu-make
+* docker (with compose plugin)
+
 ## Original requirements
 ### The problem
 We are looking for a solution that implements a due date calculator in an issuetracking

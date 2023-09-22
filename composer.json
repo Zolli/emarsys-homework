@@ -1,0 +1,24 @@
+{
+  "name": "zolli/emarsys-homework",
+  "authors": [
+    {
+      "name": "Zoltan Borsos",
+      "email": "hello@zoltanborsos.hu",
+      "homepage": "https://zolli.hu",
+      "role": "Engineer"
+    }
+  ],
+  "require": {
+    "php": ">=8.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Zolli\\Emarsys\\Homework\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Zolli\\Emarsys\\Homework\\Tests\\": "tests/"
+    }
+  }
+}
