@@ -7,13 +7,11 @@ namespace Zolli\Emarsys\Homework;
 use \DateTimeImmutable;
 use \DateInterval;
 use Zolli\Emarsys\Homework\Contracts\DueDateCalculatorInterface;
+use Zolli\Emarsys\Homework\Model\WorkTerms;
 
 class DueDateCalculator implements DueDateCalculatorInterface
 {
-    public function __construct(int $a)
-    {
-
-    }
+    public function __construct(private readonly WorkTerms $workTerms) {}
 
     public function calculateDueDate(DateTimeImmutable $submitDateTime, int $turnaroundTimeHours): DateTimeImmutable
     {
@@ -36,7 +34,7 @@ class DueDateCalculator implements DueDateCalculatorInterface
         $dateTimeHour = (int)$dateTime->format('G');
         $dateTimeDayName = $dateTime->format('l');
 
-        return ($dateTimeHour < self::WORKDAY_END && $dateTimeHour >= self::WORKDAY_START)
-            && in_array($dateTimeDayName, self::WORKDAYS);
+        return ($dateTimeHour < $this->workTerms->getWorkdayEndHour() && $dateTimeHour >= $this->workTerms->getWorkdayStartHour())
+            && in_array($dateTimeDayName, $this->workTerms->getWorkingDays());
     }
 }
