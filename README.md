@@ -4,6 +4,23 @@
 * gnu-make
 * docker (with compose plugin)
 
+## Running the tests
+First make sure the dependencies are installed
+```shell
+make install-deps
+```
+then run the tests
+```shell
+make test
+```
+
+## Assumptions
+
+> A problem can only be reported during working hours
+
+* This probably means that a problem is probably cannot be reported on non-working days as well
+* Because of this, I safely assume that a problem realistically cannot be submitted right at 09:00:00 when the day starts, so I not plan to add specific code currently to handle that edge case
+
 ## Original requirements
 ### The problem
 We are looking for a solution that implements a due date calculator in an issuetracking
