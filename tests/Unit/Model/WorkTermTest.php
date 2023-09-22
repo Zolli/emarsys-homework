@@ -33,19 +33,25 @@ class WorkTermTest extends TestCase
     }
 
     #[DataProvider('invalidWorkingHourDataProvider')]
-    public function testItThrowsExceptionWhenWorkHoursIsLessThanOne(int $workHourStart, int $workHourEnd)
+    public function testItThrowsExceptionWhenWorkHoursIsLessThanOne(
+        int $workHourStart,
+        int $workHourEnd,
+        int $calculatedHours
+    )
     {
         $this->expectException(WorkTermsException::class);
-        $this->expectExceptionMessage('At least one working day needs to be provided!');
+        $this->expectExceptionMessage(
+            sprintf('Working day length must be a positive integer! (Calculated: %d)', $calculatedHours)
+        );
 
-        new WorkTerms([], $workHourStart, $workHourEnd);
+        new WorkTerms(['Monday'], $workHourStart, $workHourEnd);
     }
 
     public static function invalidWorkingHourDataProvider(): array
     {
         return [
-            'work_hour_explicit_zero' => [9, 9],
-            'work_hour_negative' => [9, 5],
+            'work_hour_explicit_zero' => [9, 9, 0],
+            'work_hour_negative' => [9, 5, -4],
         ];
     }
 }
