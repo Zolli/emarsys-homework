@@ -3,9 +3,10 @@ version: "3"
 
 services:
     php:
-        image: phpdockerio/php:8.2-cli
-        working_dir: "/app"
+        build:
+            context: .
+            dockerfile: './.docker/php/Dockerfile'
         command: "tail -f /dev/null"
         volumes:
             - "${PWD}:/app"
-            - "${PWD}/.docker/php/config/php-ini-overrides.ini:/etc/php/8.2/fpm/conf.d/99-overrides.ini"
+            - "${PWD}/.docker/php/config/php-ini-overrides.ini:/etc/php/8.2/cli/conf.d/99-overrides.ini"
