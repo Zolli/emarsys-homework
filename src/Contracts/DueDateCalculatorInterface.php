@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Zolli\Emarsys\Homework\Contracts;
 
-use \DateTimeImmutable;
+use DateTimeImmutable;
 
 interface DueDateCalculatorInterface
 {

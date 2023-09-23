@@ -37,8 +37,7 @@ class WorkTermTest extends TestCase
         int $workHourStart,
         int $workHourEnd,
         int $calculatedHours
-    )
-    {
+    ) {
         $this->expectException(WorkTermsException::class);
         $this->expectExceptionMessage(
             sprintf('Working day length must be a positive integer! (Calculated: %d)', $calculatedHours)

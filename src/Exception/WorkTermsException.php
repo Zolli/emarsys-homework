@@ -2,7 +2,7 @@
 
 namespace Zolli\Emarsys\Homework\Exception;
 
-use \Exception;
+use Exception;
 
 class WorkTermsException extends Exception
 {

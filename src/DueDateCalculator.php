@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Zolli\Emarsys\Homework;
 
-use \DateTimeImmutable;
-use \DateInterval;
+use DateTimeImmutable;
+use DateInterval;
 use Zolli\Emarsys\Homework\Contracts\DueDateCalculatorInterface;
 use Zolli\Emarsys\Homework\Exception\IssueException;
 use Zolli\Emarsys\Homework\Model\WorkTerms;

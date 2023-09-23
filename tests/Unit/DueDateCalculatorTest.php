@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Zolli\Emarsys\Homework\Tests\Unit;
 
-use \DateTimeImmutable;
-use \ReflectionObject;
+use DateTimeImmutable;
+use ReflectionObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -26,8 +26,8 @@ class DueDateCalculatorTest extends TestCase
     public function testItCalculatesTheCorrectDueDate(
         DateTimeImmutable $startDate,
         int $turnaroundTime,
-        DateTimeImmutable $expectedResult): void
-    {
+        DateTimeImmutable $expectedResult
+    ): void {
         $result = $this->subject->calculateDueDate($startDate, $turnaroundTime);
 
         $this->assertEquals($result->format('Y-m-d H:i:s'), $expectedResult->format('Y-m-d H:i:s'));

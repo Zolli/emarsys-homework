@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Zolli\Emarsys\Homework\Exception;
 
-use \Exception;
+use Exception;
 
 class IssueException extends Exception
 {
